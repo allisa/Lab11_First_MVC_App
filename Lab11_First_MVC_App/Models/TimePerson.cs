@@ -18,14 +18,22 @@ namespace Lab11_First_MVC_App.Models
         public string Category { get; set; }
         public string Context { get; set; }
 
-        //don't forget to comment lines
+        /// <summary>
+        /// method to take information from csv file and create a list type
+        /// </summary>
+        /// <param name="begYear"></param>
+        /// <param name="endYear"></param>
+        /// <returns></returns>
         public static List<TimePerson> GetPersons(int begYear, int endYear)
         {
+            //instantiate a new list
             List<TimePerson> people = new List<TimePerson>();
+            //create path to csv file holding the time people information. then reads file
             string path = Environment.CurrentDirectory;
             string newPath = Path.GetFullPath(Path.Combine(path, @"wwwroot\personOfTheYear.csv"));
             string[] myFile = File.ReadAllLines(newPath);
 
+            //loop to go through my file and assign the fields from the csv to the columns we want to show 
             for (int i = 1; i < myFile.Length; i++)
             {
                 string[] fields = myFile[i].Split(',');
@@ -43,6 +51,7 @@ namespace Lab11_First_MVC_App.Models
                 });
             }
 
+            //linq query
             List<TimePerson> listofPeople = people.Where(p => (p.Year >= begYear) && (p.Year <= endYear)).ToList();
             return listofPeople;
         }
